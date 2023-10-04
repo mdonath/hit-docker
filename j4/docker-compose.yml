@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  joomla:
+    image: joomla:4
+    ports:
+      - 80:80
+    volumes:
+      - hit-j4-joomla-data:/var/www/html
+      - ./php.ini:/usr/local/etc/php/php.ini
+    links:
+      - joomladb:mysql
+    environment:
+      JOOMLA_DB_HOST: mysql
+      JOOMLA_DB_USER: root
+      JOOMLA_DB_PASSWORD: secret
+      JOOMLA_DB_NAME: hit_joomla_db
+
+  joomladb:
+    image: mysql:5.7
+    volumes:
+      - hit-j4-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: hit_joomla_db
+
+volumes:
+  hit-j4-joomla-data:
+  hit-j4-mysql-data:
